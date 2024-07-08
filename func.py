@@ -18,16 +18,15 @@ def handler(ctx, data: io.BytesIO=None):
         # Parse the JSON data
         body = json.loads(decoded_data)
         
-        # Extract the 'name' field from the JSON data
-        name = body.get("name")
+        
     except (Exception, ValueError) as ex:
         print(f"Error: {str(ex)}", flush=True)
 
-    print(f"Value of name = {name}", flush=True)
+    
     print("Exiting Python Hello World handler", flush=True)
     
     return response.Response(
         ctx, 
-        response_data=json.dumps({"message": f"Hello {name}"}),
+        response_data=json.dumps(decoded_data),
         headers={"Content-Type": "application/json"}
     )
