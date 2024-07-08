@@ -27,6 +27,6 @@ def handler(ctx, data: io.BytesIO=None):
     
     return response.Response(
         ctx, 
-        response_data=json.dumps(decoded_data),
+        response_data=json.dumps(body),
         headers={"Content-Type": "application/json"}
     )
