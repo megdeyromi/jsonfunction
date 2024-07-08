@@ -58,7 +58,7 @@ def generate_api(template, question, retrieved_text):
 
 def handler(ctx, data: io.BytesIO=None):
     print("Entering Python Hello World handler", flush=True)
-    
+    api_url = "https"
     body = {}  # Initialize body with an empty dictionary
     query = ""
     json_data_encoded = ""
