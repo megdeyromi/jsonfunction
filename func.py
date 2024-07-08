@@ -7,7 +7,9 @@ from fdk import response
 
 def handler(ctx, data: io.BytesIO=None):
     print("Entering Python Hello World handler", flush=True)
-    name = "World"
+    
+    body = {}  # Initialize body with an empty dictionary
+    
     try:
         # Read the incoming base64 encoded data
         base64_encoded_data = data.getvalue()
@@ -18,11 +20,10 @@ def handler(ctx, data: io.BytesIO=None):
         # Parse the JSON data
         body = json.loads(decoded_data)
         
-        
     except (Exception, ValueError) as ex:
         print(f"Error: {str(ex)}", flush=True)
+        # Handle the error if needed
 
-    
     print("Exiting Python Hello World handler", flush=True)
     
     return response.Response(
