@@ -76,6 +76,8 @@ def handler(ctx, data: io.BytesIO=None):
         
          # Process the json_data (this example assumes it contains documents)
         document_texts = json_data["items"]
+        documents = [{"content": document_texts, "id": "json_1"}]
+        document_texts = [doc['content'] for doc in documents]
         document_embeddings = embed_texts(document_texts)
 
         # Retrieve relevant documents based on query
@@ -83,7 +85,7 @@ def handler(ctx, data: io.BytesIO=None):
         retrieved_text = "\n".join(retrieved_docs)
         template = '''
 
-        You are given the below Json dara:
+        You are given the below Json Data:
         {api_docs}
         Using this documentation, generate the responses by answering the user question.
         Question:{question}
