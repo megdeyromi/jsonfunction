@@ -74,7 +74,23 @@ def handler(ctx, data: io.BytesIO=None):
         json_data_decoded = base64.b64decode(json_data_encoded)
         json_data = json.loads(json_data_decoded)
         
-        
+         # Process the json_data (this example assumes it contains documents)
+        document_texts = json_data["items"]
+        document_embeddings = embed_texts(document_texts)
+
+        # Retrieve relevant documents based on query
+        retrieved_docs = retrieve_relevant_documents(query, document_texts, document_embeddings)
+        retrieved_text = "\n".join(retrieved_docs)
+        template = '''
+
+        You are given the below Json dara:
+        {api_docs}
+        Using this documentation, generate the responses by answering the user question.
+        Question:{question}
+        API url:
+        '''
+        api_url = generate_api(template, query, retrieved_text)
+
     except (Exception, ValueError) as ex:
         print(f"Error: {str(ex)}", flush=True)
         # Handle the error if needed
@@ -83,6 +99,6 @@ def handler(ctx, data: io.BytesIO=None):
     
     return response.Response(
         ctx, 
-        response_data=json.dumps(json_data),
+        response_data=json.dumps(api_url),
         headers={"Content-Type": "application/json"}
     )
