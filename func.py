@@ -61,15 +61,19 @@ def handler(ctx, data: io.BytesIO=None):
     
     body = {}  # Initialize body with an empty dictionary
     query = ""
+    json_data_encoded = ""
     try:
-        # Read the incoming base64 encoded data
-        base64_encoded_data = data.getvalue()
+        # Read the incoming JSON data
+        body = json.loads(data.getvalue())
         
-        # Decode the base64 data
-        decoded_data = base64.b64decode(base64_encoded_data)
+        # Extract query and json_data from the input JSON
+        query = body.get("query", "")
+        json_data_encoded = body.get("json_data", "")
         
-        # Parse the JSON data
-        body = json.loads(decoded_data)
+        # Decode the json_data
+        json_data_decoded = base64.b64decode(json_data_encoded)
+        json_data = json.loads(json_data_decoded)
+        
         
     except (Exception, ValueError) as ex:
         print(f"Error: {str(ex)}", flush=True)
@@ -79,6 +83,6 @@ def handler(ctx, data: io.BytesIO=None):
     
     return response.Response(
         ctx, 
-        response_data=json.dumps(body),
+        response_data=json.dumps(json_data),
         headers={"Content-Type": "application/json"}
     )
