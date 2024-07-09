@@ -3,6 +3,7 @@ import json
 import base64
 import os
 import cohere
+import oci
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 import time
